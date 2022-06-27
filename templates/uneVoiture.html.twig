@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block content %}
+<h1 class="text-center">-Liste des voitures-</h1>
+<table class="table text-center">
+<thead class="thead-dark">
+                <tr>
+                    <th>titre</th>
+                    <th>marque</th>
+                    <th>modele</th>
+                    <th>description</th>
+                    <th>photo</th>
+                    <th>prix journalier</th>
+                </tr>
+            </thead>
+<tr>
+<td>{{voiture.titre}}</td>
+<td>{{voiture.marque}}</td>
+<td>{{voiture.modele}}</td>
+<td>{{voiture.description}}</td>
+<td>{{voiture.photo}}</td>
+<td>{{voiture.prixJournalier}}</td>
+<td>
+
+</tr>
+</table>
+<a href="{{ path("voiture_affiche") }}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Retour</a>
+
+{% endblock %}
