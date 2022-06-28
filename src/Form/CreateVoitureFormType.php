@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Voiture;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +18,7 @@ class CreateVoitureFormType extends AbstractType
             ->add('marque')
             ->add('modele')
             ->add('description')
-            ->add('photo')
+            ->add('imageForm', FileType::class, ["mapped" =>false])
             ->add('prixJournalier')
             ->add ('envoyer', SubmitType::class)
         

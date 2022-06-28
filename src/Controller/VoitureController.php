@@ -12,17 +12,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class VoitureController extends AbstractController
 {
     #[Route('/enregistre_voiture', name: 'app_voiture')]
-    public function record(ManagerRegistry $doctrine, Request $request): Response
+    public function record(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
     {
         $voiture = new Voiture();
         $form=$this->createForm(CreateVoitureFormType::class, $voiture);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            
+            $file = $form->get('imageForm')->getData();
+            $fileName = $slugger->slug($voiture->getTitre() ) . uniqid() . '.' . $file->guessExtension();
+            try{
+                $file->move($this->getParameter('photos_voitures'), $fileName);
+            }catch(FileException $e){
+
+            }
+            $voiture->setPhoto($fileName);
             $voiture -> setDateEnregistrement(new DateTime("now"));
             $manager = $doctrine->getManager();
             $manager->persist($voiture);
